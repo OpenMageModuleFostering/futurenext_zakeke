@@ -28,8 +28,11 @@ class Futurenext_Zakeke_Zakeke_ModuleCheckerController extends Mage_Adminhtml_Co
         $moduleList = $moduleListHelper->getList();
         /** @var Futurenext_Zakeke_Helper_ZakekeApi $zakekeApi */
         $zakekeApi = Mage::helper('futurenext_zakeke/zakekeApi');
-        $completeModuleList = $zakekeApi->moduleChecker($moduleList);
-
+        try {
+            $completeModuleList = $zakekeApi->moduleChecker($moduleList);
+        } catch (Exception $e) {
+            $completeModuleList = false;
+        }
         Mage::register(
             Futurenext_Zakeke_Helper_Data::ZAKEKE_MODULE_LIST_REGISTRY,
             $completeModuleList
