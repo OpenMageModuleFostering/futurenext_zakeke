@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Futurenext_Zakeke>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Catalog />
+                <Mage_Sales />
+            </depends>
+        </Futurenext_Zakeke>
+    </modules>
+</config>

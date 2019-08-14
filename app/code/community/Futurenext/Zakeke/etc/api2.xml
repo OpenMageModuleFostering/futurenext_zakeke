@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<!--
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+-->
+<config>
+    <api2>
+        <resource_groups>
+            <futurenext_zakeke translate="title" module="futurenext_zakeke">
+                <title>Zakeke api</title>
+                <sort_order>10</sort_order>
+            </futurenext_zakeke>
+        </resource_groups>
+
+        <resources>
+            <zakekeEnabled translate="title" module="futurenext_zakeke">
+                <group>futurenext_zakeke</group>
+                <model>futurenext_zakeke/api2_zakekeEnabled</model>
+                <title>Enable Zakeke for a product</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <create>0</create>
+                        <retrieve>0</retrieve>
+                        <update>0</update>
+                        <delete>0</delete>
+                    </customer>
+                    <guest>
+                        <create>0</create>
+                        <retrieve>0</retrieve>
+                        <update>0</update>
+                        <delete>0</delete>
+                    </guest>
+                </privileges>
+                <attributes translate="" module="futurenext_zakeke">
+                    <entity_id>Entity ID</entity_id>
+                    <sku>Sku</sku>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <entity_id>1</entity_id>
+                            <sku>1</sku>
+                        </read>
+                    </admin>
+                </include_attributes>
+                <force_attributes>
+                    <admin>
+                        <entity_id>1</entity_id>
+                        <sku>1</sku>
+                    </admin>
+                </force_attributes>
+                <routes>
+                    <route_collection>
+                        <route>/zakeke/enabled</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                    <route_entity>
+                        <route>/zakeke/enabled/:sku</route>
+                        <action_type>entity</action_type>
+                    </route_entity>
+                </routes>
+                <versions>1</versions>
+            </zakekeEnabled>
+
+            <zakekeColors translate="title" module="futurenext_zakeke">
+                <group>futurenext_zakeke</group>
+                <model>futurenext_zakeke/api2_colors</model>
+                <title>Color attribute values</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <create>0</create>
+                        <retrieve>0</retrieve>
+                        <update>0</update>
+                        <delete>0</delete>
+                    </customer>
+                    <guest>
+                        <create>0</create>
+                        <retrieve>0</retrieve>
+                        <update>0</update>
+                        <delete>0</delete>
+                    </guest>
+                </privileges>
+                <attributes>
+                    <value>Color value ID</value>
+                    <label>Color value label</label>
+                    <attribute_id>Color attribute ID</attribute_id>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <value>1</value>
+                            <label>1</label>
+                            <attribute_id>1</attribute_id>
+                        </read>
+                    </admin>
+                </include_attributes>
+                <force_attributes>
+                    <admin>
+                        <value>1</value>
+                        <label>1</label>
+                        <attribute_id>1</attribute_id>
+                    </admin>
+                </force_attributes>
+                <routes>
+                    <route_collection>
+                        <route>/zakeke/colors</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </zakekeColors>
+
+            <zakekeProductOptions translate="title" module="futurenext_zakeke">
+                <group>futurenext_zakeke</group>
+                <model>futurenext_zakeke/api2_productOptions</model>
+                <title>Product configurable options</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <admin>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </admin>
+                    <customer>
+                        <create>1</create>
+                        <retrieve>1</retrieve>
+                        <update>1</update>
+                        <delete>1</delete>
+                    </customer>
+                    <guest>
+                        <retrieve>1</retrieve>
+                    </guest>
+                </privileges>
+                <attributes translate="" module="futurenext_zakeke">
+                    <attribute_id>Attribute ID</attribute_id>
+                    <label>Attribute label</label>
+                    <values>Attribute values</values>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <attribute_id>1</attribute_id>
+                            <label>1</label>
+                            <values>1</values>
+                        </read>
+                    </admin>
+                </include_attributes>
+                <force_attributes>
+                    <admin>
+                        <attribute_id>1</attribute_id>
+                        <label>1</label>
+                        <values>1</values>
+                    </admin>
+                </force_attributes>
+                <routes>
+                    <route_collection>
+                        <route>/zakeke/product/configurableOptions/:sku</route>
+                        <action_type>collection</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </zakekeProductOptions>
+
+            <zakekeSettings translate="title" module="futurenext_zakeke">
+                <group>futurenext_zakeke</group>
+                <model>futurenext_zakeke/api2_settings</model>
+                <title>Store settings</title>
+                <sort_order>10</sort_order>
+                <privileges>
+                    <admin>
+                        <retrieve>1</retrieve>
+                    </admin>
+                    <customer>
+                        <create>0</create>
+                        <retrieve>1</retrieve>
+                        <update>0</update>
+                        <delete>0</delete>
+                    </customer>
+                    <guest>
+                        <create>0</create>
+                        <retrieve>0</retrieve>
+                        <update>0</update>
+                        <delete>0</delete>
+                    </guest>
+                </privileges>
+                <attributes>
+                    <locale>Store locale code</locale>
+                    <base_currency_code>Store base currency code</base_currency_code>
+                    <media_url>Store media path</media_url>
+                </attributes>
+                <include_attributes>
+                    <admin>
+                        <read>
+                            <locale>1</locale>
+                            <base_currency_code>1</base_currency_code>
+                            <media_url>1</media_url>
+                        </read>
+                    </admin>
+                </include_attributes>
+                <force_attributes>
+                    <admin>
+                        <locale>1</locale>
+                        <base_currency_code>1</base_currency_code>
+                        <media_url>1</media_url>
+                    </admin>
+                </force_attributes>
+                <routes>
+                    <route_collection>
+                        <route>/zakeke/settings</route>
+                        <action_type>entity</action_type>
+                    </route_collection>
+                </routes>
+                <versions>1</versions>
+            </zakekeSettings>
+
+            <product translate="title" module="api2">
+                <attributes module="api2">
+                    <sku>Product SKU</sku>
+                </attributes>
+
+                <exclude_attributes>
+                    <admin>
+                        <read>
+                            <image_url>0</image_url>
+                            <image>0</image>
+                            <small_image>0</small_image>
+                        </read>
+                    </admin>
+                </exclude_attributes>
+            </product>
+        </resources>
+    </api2>
+</config>

@@ -1,0 +1,63 @@
+<?php
+
+/** @var Futurenext_Zakeke_Block_ModuleChecker $this */
+
+$moduleList = $this->getModuleList();
+$isZakekeReachable = $this->getIsZakekeReachable();
+$isModuleCheckerValid = $moduleList === false || count($moduleList) == 0;
+
+$isReady = $isZakekeReachable && $isModuleCheckerValid;
+
+/** @var Mage_Adminhtml_Helper_Data $helper */
+$helper = Mage::helper('adminhtml');
+?>
+<div class="middle" id="anchor-content" xmlns="http://www.w3.org/1999/html">
+    <div id="page:main-container">
+        <div class="content-header">
+            <h3><?php echo $helper->__('Readiness Check') ?></h3>
+        </div>
+        <div id="zakeke-summary"
+             class="zakeke-checker <?php echo $isReady ? 'zakeke-valid' : 'zakeke-not-valid' ?>">
+            <span>
+                <?php if ($isReady): ?>
+                    <strong><?php echo $helper->__('Compatible!') ?></strong> <?php echo $helper->__('You Magento store is ready for Zakeke.') ?>
+                <?php else: ?>
+                    <strong><?php echo $helper->__('Error!') ?></strong> <?php echo $helper->__('You need to resolve these issues to use Zakeke.') ?>
+                <?php endif; ?>
+            </span>
+        </div>
+
+        <div id="zakeke-reachable-checker"
+             class="zakeke-checker <?php echo $isZakekeReachable ? 'zakeke-valid' : 'zakeke-not-valid' ?>">
+            <h3><?php echo $helper->__('Connection Check') ?></h3>
+            <div>
+                <?php if ($isZakekeReachable): ?>
+                    <p><?php echo $helper->__('Zakeke is reachable.') ?></p>
+                <?php else: ?>
+                    <div class="zakeke-problem-description">
+                        <p><?php echo $helper->__('Zakeke is not reachable. Contact us and we will investigate the problem.') ?></p>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div id="zakeke-module-checker"
+             class="zakeke-checker <?php echo $isModuleCheckerValid ? 'zakeke-valid' : 'zakeke-not-valid' ?>">
+            <h3><?php echo $helper->__('Modules Check') ?></h3>
+            <div>
+                <?php if ($isModuleCheckerValid): ?>
+                    <p><?php echo $helper->__('Your modules are compatible.') ?></p>
+                <?php else: ?>
+                    <div class="zakeke-problem-description">
+                        <p><?php echo $helper->__('%s modules result not compatible', count($moduleList)) ?></p>
+                    </div>
+                    <ul>
+                        <?php foreach($moduleList as $index => $module): ?>
+                            <li><?php echo sprintf('%s (%s) - %s', $module->getName(), $module->getModuleVersion(), $module->getHowToFix()) ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>

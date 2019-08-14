@@ -1,0 +1,57 @@
+<?php
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+
+/** @var Futurenext_Zakeke_Block_CustomizeButton $this */
+?>
+
+<?php if ($this->isProductCustomizable()): ?>
+    <button id="zakeke-customize-button" class="button">
+        <span><?php /* @escapeNotVerified */ echo $this->__('Customize') ?></span>
+    </button>
+
+    <script type="application/javascript">
+        (function (config) {
+            'use strict';
+
+            var zakekeButton = window.document.getElementById('zakeke-customize-button'),
+                addtoCartForm = window.document.getElementById('product_addtocart_form'),
+                observer = new MutationObserver(function() {
+                    zakekeButton.removeAttribute('onclick');
+                });
+
+            observer.observe(zakekeButton, {
+                attributes: true,
+                attributeFilter: ['onclick'],
+                attributeOldValue: false,
+                childList: false,
+                characterData: false
+            });
+
+            zakekeButton.addEventListener('click', function (event) {
+                var cartForm = new VarienForm('product_addtocart_form');
+                if (zakekeButton.disabled || (cartForm && !cartForm.validator.validate())) {
+                    event.preventDefault();
+                    return false;
+                }
+
+                zakekeButton.disabled = true;
+
+                var resolutionInput = window.document.createElement('INPUT');
+                resolutionInput.type = 'hidden';
+                resolutionInput.name = 'resolution';
+                resolutionInput.value = window.screen.width + 'x' + window.screen.height;
+                addtoCartForm.appendChild(resolutionInput);
+
+                addtoCartForm.action = config.customizeUrl;
+                addtoCartForm.submit();
+            }, true);
+        })(<?php echo $this->getJsonConfig() ?>);
+    </script>
+<?php endif; ?>

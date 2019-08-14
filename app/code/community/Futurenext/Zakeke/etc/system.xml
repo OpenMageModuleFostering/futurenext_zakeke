@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+-->
+<config>
+    <tabs>
+        <zakeke translate="label" module="futurenext_zakeke">
+            <label>Zakeke Interactive Product Design</label>
+            <sort_order>200</sort_order>
+        </zakeke>
+    </tabs>
+    <sections>
+        <futurenext_zakeke translate="label" module="futurenext_zakeke">
+            <label>Zakeke Interactive Product Design</label>
+            <tab>zakeke</tab>
+            <class>separator-top</class>
+            <sort_order>340</sort_order>
+            <frontend_type>text</frontend_type>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <zakekeUsername translate="label comment">
+                            <label>Zakeke username</label>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>text</frontend_type>
+                            <comment><![CDATA[Need a Zakeke account? <a href="https://www.zakeke.com/Admin/Register" target="_blank">Click here to get one]]></comment>
+                        </zakekeUsername>
+
+                        <zakekePassword translate="label">
+                            <label>Zakeke password</label>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>password</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                        </zakekePassword>
+                    </fields>
+                </settings>
+            </groups>
+        </futurenext_zakeke>
+    </sections>
+</config>

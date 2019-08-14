@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="minicart_head">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>futurenext_zakeke/cartItemRenderer</block>
+                <template>zakeke/cart/minicart.phtml</template>
+            </action>
+        </reference>
+        <reference name="cart_sidebar">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>futurenext_zakeke/cartItemRenderer</block>
+                <template>zakeke/cart/minicart.phtml</template>
+            </action>
+        </reference>
+        <reference name="minicart_content">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>futurenext_zakeke/cartItemRenderer</block>
+                <template>zakeke/cart/minicart.phtml</template>
+            </action>
+        </reference>
+    </default>
+
+    <checkout_cart_index>
+        <reference name="checkout.cart">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>futurenext_zakeke/cartItemRenderer</block>
+                <template>zakeke/cart/item/default.phtml</template>
+            </action>
+        </reference>
+    </checkout_cart_index>
+
+    <catalog_product_view>
+        <reference name="product.info.addtocart">
+            <block type="futurenext_zakeke/customizeButton"
+                   name="zakeke.customize.button"
+                   template="zakeke/customizeButton.phtml"/>
+        </reference>
+    </catalog_product_view>
+
+    <futurenext_zakeke_customize_add>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>zakeke/jquery.js</script></action>
+            <action method="addJs"><script>zakeke/customize.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="futurenext_zakeke/customize_add"
+                   name="zakeke.customize.add"
+                   template="zakeke/customize.phtml"/>
+        </reference>
+    </futurenext_zakeke_customize_add>
+
+    <futurenext_zakeke_customize_configure>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>zakeke/jquery.js</script></action>
+            <action method="addJs"><script>zakeke/customize.js</script></action>
+        </reference>
+        <reference name="content">
+            <block type="futurenext_zakeke/customize_configure"
+                   name="zakeke.customize.configure"
+                   template="zakeke/customize.phtml"/>
+        </reference>
+    </futurenext_zakeke_customize_configure>
+
+</layout>

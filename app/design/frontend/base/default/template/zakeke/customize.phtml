@@ -1,0 +1,25 @@
+<?php
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+
+/** @var Futurenext_Zakeke_Block_Customize $this */
+?>
+
+<?php if ($this->isProductCustomizable()): ?>
+    <div id="zakeke-container">
+        <?php echo $this->iframeHtml() ?>
+    </div>
+
+    <form id="zakeke-addtocart" style="display: none">
+    </form>
+
+    <script type="application/javascript">
+        zakekeCustomizationAdd(<?php echo $this->getJsonConfig() ?>);
+    </script>
+<?php endif; ?>

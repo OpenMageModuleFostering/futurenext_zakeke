@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Futurenext_Zakeke",
+    "type": "magento-module",
+    "license": "Zakeke-license",
+    "homepage": "",
+    "description": "Innovative cloud platform that allows any Magento store to integrate into the system a 2D and 3D complete customizer of products",
+    "authors": [
+    {
+        "name": "Futurenext",
+        "email": "info@zakeke.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

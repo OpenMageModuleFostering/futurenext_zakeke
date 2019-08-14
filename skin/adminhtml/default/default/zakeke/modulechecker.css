@@ -1,0 +1,42 @@
+#zakeke-summary {
+    font-size: 15px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-position-y: center;
+}
+
+#zakeke-summary.zakeke-valid {
+    background-color: #fffbbb;
+    background-image: url("../../default/images/success-msg.png");
+}
+
+#zakeke-summary.zakeke-not-valid {
+    background-color: #fcc;
+    background-image: url("../../default/images/error-msg.png");
+}
+
+.zakeke-checker {
+    padding-left: 55px;
+    margin-bottom: 40px;
+    background-position-x: 15px;
+    background-repeat: no-repeat;
+}
+
+.zakeke-checker h3 {
+    margin-bottom: 0;
+}
+
+.zakeke-checker.zakeke-valid {
+    background-image: url("../../default/images/success-msg.png");
+}
+
+.zakeke-checker.zakeke-not-valid {
+    background-image: url("../../default/images/error-msg.png");
+}
+
+.zakeke-checker.zakeke-not-valid ul li {
+    background: url("../../default/images/error_msg_icon.gif") no-repeat;
+    padding-left: 22px;
+}

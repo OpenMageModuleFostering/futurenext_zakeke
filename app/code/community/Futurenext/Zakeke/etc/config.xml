@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!--
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+-->
+<config>
+    <modules>
+        <Futurenext_Zakeke>
+            <version>1.0.0.9</version>
+        </Futurenext_Zakeke>
+    </modules>
+
+    <global>
+        <blocks>
+            <futurenext_zakeke>
+                <class>Futurenext_Zakeke_Block</class>
+            </futurenext_zakeke>
+        </blocks>
+
+        <models>
+            <futurenext_zakeke>
+                <class>Futurenext_Zakeke_Model</class>
+                <resourceModel>futurenext_zakeke_resource</resourceModel>
+            </futurenext_zakeke>
+            <futurenext_zakeke_resource>
+                <class>Futurenext_Zakeke_Model_Resource</class>
+                <entities>
+                    <zakekeEnabled>
+                        <table>futurenext_zakeke_enabled</table>
+                    </zakekeEnabled>
+                </entities>
+            </futurenext_zakeke_resource>
+
+            <restapi>
+                <class>Futurenext_Zakeke_Model_Api2_ZakekeEnabled</class>
+            </restapi>
+        </models>
+
+        <resources>
+            <zakeke_setup>
+                <setup>
+                    <module>Futurenext_Zakeke</module>
+                    <class>Futurenext_Zakeke_Model_Resource_Setup</class>
+                </setup>
+            </zakeke_setup>
+        </resources>
+
+        <helpers>
+            <futurenext_zakeke>
+                <class>Futurenext_Zakeke_Helper</class>
+            </futurenext_zakeke>
+        </helpers>
+
+        <events>
+            <catalog_product_load_after>
+                <observers>
+                    <futurenext_zakeke_product_load_after_cart_add>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>productLoadAfterCartAdd</method>
+                    </futurenext_zakeke_product_load_after_cart_add>
+                </observers>
+            </catalog_product_load_after>
+
+            <sales_quote_item_set_product>
+                <observers>
+                    <futurenext_zakeke_cart_add>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>cartAdd</method>
+                    </futurenext_zakeke_cart_add>
+                </observers>
+            </sales_quote_item_set_product>
+
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <futurenext_zakeke>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>salesConvertQuoteItemToOrderItem</method>
+                    </futurenext_zakeke>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
+
+            <sales_model_service_quote_submit_success>
+                <observers>
+                    <futurenext_zakeke>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>orderSave</method>
+                    </futurenext_zakeke>
+                </observers>
+            </sales_model_service_quote_submit_success>
+
+            <customer_register_success>
+                <observers>
+                    <futurenext_zakeke>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>customerRegister</method>
+                    </futurenext_zakeke>
+                </observers>
+            </customer_register_success>
+
+            <customer_login>
+                <observers>
+                    <futurenext_zakeke>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>customerLogin</method>
+                    </futurenext_zakeke>
+                </observers>
+            </customer_login>
+
+            <customer_logout>
+                <observers>
+                    <futurenext_zakeke>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>customerLogout</method>
+                    </futurenext_zakeke>
+                </observers>
+            </customer_logout>
+
+            <checkout_cart_product_add_after>
+                <observers>
+                    <futurenext_zakeke>
+                        <class>Futurenext_Zakeke_Model_Observer</class>
+                        <method>reorder</method>
+                    </futurenext_zakeke>
+                </observers>
+            </checkout_cart_product_add_after>
+        </events>
+    </global>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <futurenext_zakeke>
+                    <file>zakeke.xml</file>
+                </futurenext_zakeke>
+            </updates>
+        </layout>
+
+        <translate>
+            <modules>
+                <Futurenext_Zakeke>
+                    <files>
+                        <default>Futurenext_Zakeke.csv</default>
+                    </files>
+                </Futurenext_Zakeke>
+            </modules>
+        </translate>
+    </adminhtml>
+
+    <frontend>
+        <routers>
+            <futurenext_zakeke>
+                <use>standard</use>
+                <args>
+                    <module>Futurenext_Zakeke</module>
+                    <frontName>zakeke</frontName>
+                </args>
+            </futurenext_zakeke>
+        </routers>
+
+        <translate>
+            <modules>
+                <Futurenext_Zakeke>
+                    <files>
+                        <default>Futurenext_Zakeke.csv</default>
+                    </files>
+                </Futurenext_Zakeke>
+            </modules>
+        </translate>
+
+        <layout>
+            <updates>
+                <futurenext_zakeke>
+                    <file>zakeke.xml</file>
+                </futurenext_zakeke>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <futurenext_zakeke before="Mage_Adminhtml">Futurenext_Zakeke</futurenext_zakeke>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <default>
+        <futurenext_zakeke>
+            <settings>
+                <zakekeActive>1</zakekeActive>
+            </settings>
+        </futurenext_zakeke>
+    </default>
+</config>

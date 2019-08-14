@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/*******************************************************
+ * Copyright (C) 2016 FutureNext SRL
+ *
+ * This file is part of Zakeke.
+ *
+ * Zakeke can not be copied and/or distributed without the express
+ * permission of FutureNext SRL
+ *******************************************************/
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <futurenext_zakeke translate="title" module="futurenext_zakeke">
+                                        <title>Zakeke Interactive Product Design</title>
+                                    </futurenext_zakeke>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+
+    <menu>
+        <futurenext_zakeke translate="title" module="futurenext_zakeke">
+            <title>Zakeke</title>
+            <depends><module>Futurenext_Zakeke</module></depends>
+            <sort_order>100</sort_order>
+            <children>
+                <moduleChecker translate="title" module="futurenext_zakeke">
+                    <title>Readiness Check</title>
+                    <action>adminhtml/zakeke_moduleChecker/index</action>
+                    <sort_order>10</sort_order>
+                </moduleChecker>
+            </children>
+        </futurenext_zakeke>
+    </menu>
+</config>

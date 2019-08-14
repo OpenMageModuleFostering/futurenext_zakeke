@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_order_view_items_renderer_default</block>
+                <template>zakeke/sales/order/view/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_order_invoice_view>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="invoice_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_order_view_items_renderer_default</block>
+                <template>zakeke/sales/order/invoice/view/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_invoice_new>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_order_view_items_renderer_default</block>
+                <template>zakeke/sales/order/invoice/create/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_new>
+
+    <adminhtml_sales_order_invoice_updateqty>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_items_renderer_default</block>
+                <template>zakeke/sales/order/invoice/create/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_updateqty>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_items_renderer_default</block>
+                <template>zakeke/sales/order/creditmemo/create/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="order_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_items_renderer_default</block>
+                <template>zakeke/sales/order/creditmemo/create/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="head">
+            <action method="addJs"><file>zakeke/preview.js</file></action>
+        </reference>
+        <reference name="creditmemo_items">
+            <action method="addItemRender">
+                <type>zakeke</type>
+                <block>adminhtml/sales_items_renderer_default</block>
+                <template>zakeke/sales/order/creditmemo/view/items/renderer/zakeke.phtml</template>
+            </action>
+            <action method="addColumnRender">
+                <column>zakeke</column>
+                <block>futurenext_zakeke/adminhtml_sales_items_column_zakeke_name</block>
+                <template>zakeke/sales/items/column/zakeke/name.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
+
+    <adminhtml_zakeke_modulechecker_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>zakeke/modulechecker.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="futurenext_zakeke/moduleChecker"
+                   template="zakeke/modulechecker.phtml"
+                   name="zakeke_module_checker" />
+        </reference>
+    </adminhtml_zakeke_modulechecker_index>
+</layout>
