@@ -97,6 +97,6 @@ class Futurenext_Zakeke_Block_CartItemRenderer extends Mage_Checkout_Block_Cart_
         unset($buyRequestParams['zakeke-pricing']);
 	    unset($buyRequestParams['form_key']);
 
-        return $this->getUrl('zakeke/Customize/Configure') . '?' . http_build_query($buyRequestParams);
+        return $this->getUrl('ProductDesigner/Customize/Configure') . '?' . http_build_query($buyRequestParams);
     }
 }

@@ -18,7 +18,7 @@
     </tabs>
     <sections>
         <futurenext_zakeke translate="label" module="futurenext_zakeke">
-            <label>Zakeke Interactive Product Design</label>
+            <label>Zakeke Interactive Product Designer</label>
             <tab>zakeke</tab>
             <class>separator-top</class>
             <sort_order>340</sort_order>
@@ -27,8 +27,9 @@
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <settings translate="label">
+                <settings translate="label comment">
                     <label>General Settings</label>
+                    <comment>These credentials will be used to allow the integration of Zakeke with your store. By entering your Zakeke credentials your store will be able to communicate with the Zakeke API.</comment>
                     <frontend_type>text</frontend_type>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

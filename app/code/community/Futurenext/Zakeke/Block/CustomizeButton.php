@@ -24,7 +24,7 @@ class Futurenext_Zakeke_Block_CustomizeButton extends Futurenext_Zakeke_Block_Vi
      */
     public function getCustomizeAddUrl()
     {
-        return $this->getUrl('zakeke/Customize/Add');
+        return $this->getUrl('ProductDesigner/Customize/Add');
     }
 
     /**
@@ -43,7 +43,7 @@ class Futurenext_Zakeke_Block_CustomizeButton extends Futurenext_Zakeke_Block_Vi
             $params[Futurenext_Zakeke_Helper_Data::ZAKEKE_DESIGN_PARAM] = $zakekeOption['design'];
         }
 
-        return $this->getUrl('zakeke/Customize/Configure') . '?' . http_build_query($params);
+        return $this->getUrl('ProductDesigner/Customize/Configure') . '?' . http_build_query($params);
     }
 
     /**

@@ -62,7 +62,7 @@ function zakekeCustomizationAdd(config) {
             }
 
             pendingProductDataRequests.push(queryString);
-            $jZakeke.ajax(config.baseUrl + 'zakeke/customize/price?' + queryString)
+            $jZakeke.ajax(config.baseUrl + 'ProductDesigner/customize/price?' + queryString)
                 .done(function (result) {
                     var productData = $jZakeke.extend({}, result);
                     productData.color = color;
