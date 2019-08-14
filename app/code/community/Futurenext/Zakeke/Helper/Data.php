@@ -1,11 +1,11 @@
 <?php
 /*******************************************************
- * Copyright (C) 2016 FutureNext SRL
+ * Copyright (C) 2017 Zakeke
  *
  * This file is part of Zakeke.
  *
  * Zakeke can not be copied and/or distributed without the express
- * permission of FutureNext SRL
+ * permission of Zakeke
  *******************************************************/
 
 
@@ -53,22 +53,76 @@ class Futurenext_Zakeke_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Calculate the Zakeke pricing on the customized product
+     *
+     * @param float $originalFinalPrice
+     * @param array $pricing
+     * @param float $qty
+     * @return float
+     */
+    public static function getZakekePrice($originalFinalPrice, $pricing, $qty)
+    {
+        $zakekePrice = 0.0;
+
+        if ($pricing['modelPriceDeltaPerc'] > 0) {
+            $zakekePrice += $originalFinalPrice * ((float) $pricing['modelPriceDeltaPerc'] / 100);
+        } else {
+            $zakekePrice += (float) $pricing['modelPriceDeltaValue'];
+        }
+
+        if ($pricing['designPrice'] > 0) {
+            if (isset($pricing['pricingModel']) && $pricing['pricingModel'] === 'advanced') {
+                $zakekePrice += (float) $pricing['designPrice'] / $qty;
+            } else {
+                $zakekePrice += (float) $pricing['designPrice'];
+            }
+        }
+
+        return $zakekePrice;
+    }
+
+    /**
      * Get the Zakeke option or false if the product is not customized
      *
      * @param array $options
      * @return array|false
      */
-    public static function getZakekeOption($options)
+    public static function &getZakekeOption(&$options)
     {
-        foreach ($options as $option) {
+        $result = false;
+
+        foreach ($options as &$option) {
             if (!isset($option['is_zakeke'])) {
                 continue;
             }
 
-            return $option;
+            $result = $option;
+            break;
         }
 
-        return false;
+        return $result;
+    }
+
+    /**
+     * Get the Zakeke price option or false if the product is not customized
+     *
+     * @param array $options
+     * @return array|false
+     */
+    public static function &getZakekePriceOption(&$options)
+    {
+        $result = false;
+
+        foreach ($options as &$option) {
+            if (!isset($option['code']) || $option['code'] !== 'zakeke_price') {
+                continue;
+            }
+
+            $result = $option;
+            break;
+        }
+
+        return $result;
     }
 
     /**

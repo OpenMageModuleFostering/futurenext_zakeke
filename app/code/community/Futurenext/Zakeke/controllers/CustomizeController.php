@@ -1,11 +1,11 @@
 <?php
 /*******************************************************
- * Copyright (C) 2016 FutureNext SRL
+ * Copyright (C) 2017 Zakeke
  *
  * This file is part of Zakeke.
  *
  * Zakeke can not be copied and/or distributed without the express
- * permission of FutureNext SRL
+ * permission of Zakeke
  *******************************************************/
 
 
@@ -113,12 +113,13 @@ class Futurenext_Zakeke_CustomizeController extends Mage_Core_Controller_Front_A
                 return;
             }
 
-            $qty = $this->getRequest()->getParam('qty');
-            if (isset($qty)) {
-                $filter = new Zend_Filter_LocalizedToNormalized(
-                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
-                );
-                $qty = $filter->filter($qty);
+            $qty = $this->getRequest()->getParam('qty', '1');
+            $filter = new Zend_Filter_LocalizedToNormalized(
+                array('locale' => Mage::app()->getLocale()->getLocaleCode())
+            );
+            $qty = $filter->filter($qty);
+            if ($qty <= 0) {
+                $qty = 1;
             }
 
             $baseFinalPrice = $product->getFinalPrice($qty);
@@ -190,13 +191,13 @@ class Futurenext_Zakeke_CustomizeController extends Mage_Core_Controller_Front_A
                 }
             }
 
-            $unitFinalPrice = $finalPrice + $zakekeFinalPrice;
+            $customizationFinalPrice = ($finalPrice * $qty) + $zakekeFinalPrice;
 
             /** @var Mage_Core_Helper_Data $coreHelper */
             $coreHelper = Mage::helper('core');
 
             $data = array(
-                'finalPrice' => $coreHelper->currency($unitFinalPrice, false, false),
+                'finalPrice' => $coreHelper->currency($customizationFinalPrice, false, false),
             );
             $this->getResponse()->setBody(json_encode($data));
         } catch (Exception $e) {

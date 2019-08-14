@@ -1,11 +1,11 @@
 <?php
 /*******************************************************
- * Copyright (C) 2016 FutureNext SRL
+ * Copyright (C) 2017 Zakeke
  *
  * This file is part of Zakeke.
  *
  * Zakeke can not be copied and/or distributed without the express
- * permission of FutureNext SRL
+ * permission of Zakeke
  *******************************************************/
 
 
@@ -46,16 +46,18 @@ class Futurenext_Zakeke_Model_Observer
             $model = $request->getParam(
                 Futurenext_Zakeke_Helper_Data::ZAKEKE_MODEL_PARAM
             );
+
             if (!$design || !$model) {
                 return $this;
             }
 
-            $qty = $request->getParam('qty');
-            if ($qty) {
-                $filter = new Zend_Filter_LocalizedToNormalized(
-                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
-                );
-                $qty = $filter->filter($qty);
+            $qty = $request->getParam('qty', '1');
+            $filter = new Zend_Filter_LocalizedToNormalized(
+                array('locale' => Mage::app()->getLocale()->getLocaleCode())
+            );
+            $qty = (float) $filter->filter($qty);
+            if ($qty <= 0) {
+                $qty = 1;
             }
 
             /** @var Mage_Catalog_Model_Product $product */
@@ -86,20 +88,14 @@ class Futurenext_Zakeke_Model_Observer
                 return $this;
             }
 
-            $zakekeCartData = $zakekeApi->getCartInfo($design);
+            $zakekeCartData = $zakekeApi->getCartInfo($design, $qty);
 
             /** @var Mage_Core_Helper_Data $coreHelper */
             $coreHelper = Mage::helper('core');
 
             $originalFinalPrice = $product->getFinalPrice($qty);
 
-            $zakekePrice = 0.0;
-            if ($zakekeCartData->pricing['modelPriceDeltaPerc']) {
-                $zakekePrice += $originalFinalPrice * ($zakekeCartData->pricing['modelPriceDeltaPerc'] / 100);
-            } else {
-                $zakekePrice += (float)$zakekeCartData->pricing['modelPriceDeltaValue'];
-            }
-            $zakekePrice += (float)$zakekeCartData->pricing['designPrice'];
+            $zakekePrice = $zakekeHelper::getZakekePrice($originalFinalPrice, $zakekeCartData->pricing, $qty);
 
             $zakekeOption = array(
                 'label' => $coreHelper->__('Customization'),
@@ -118,13 +114,8 @@ class Futurenext_Zakeke_Model_Observer
 
             $options[] = $zakekeOption;
 
-            if ($zakekePrice) {
-                $zakekeFinalPrice = $coreHelper->currency($zakekePrice, true, false);
-                $zakekePricingOption = [
-                    'label' => $coreHelper->__('Customization Price'),
-                    'value' => $zakekeFinalPrice
-                ];
-                $options[] = $zakekePricingOption;
+            if ($zakekePrice > 0) {
+                self::upsertZakekePricingOption($options, $zakekePrice);
             }
 
             $product->addCustomOption('additional_options', serialize($options));
@@ -153,6 +144,7 @@ class Futurenext_Zakeke_Model_Observer
             if ($action === null) {
                 return $this;
             }
+
             $actionName = $action->getFullActionName();
             if ($actionName !== 'sales_order_reorder') {
                 return $this;
@@ -178,13 +170,15 @@ class Futurenext_Zakeke_Model_Observer
                 return $this;
             }
 
-            $qty = $action->getRequest()->getParam('qty');
-            if ($qty !== null) {
-                $filter = new Zend_Filter_LocalizedToNormalized(
-                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
-                );
-                $qty = $filter->filter($qty);
+            $qty = $action->getRequest()->getParam('qty', '1');
+            $filter = new Zend_Filter_LocalizedToNormalized(
+                array('locale' => Mage::app()->getLocale()->getLocaleCode())
+            );
+            $qty = (float) $filter->filter($qty);
+            if ($qty <= 0) {
+                $qty = 1;
             }
+
 
             $design = $buyInfo[Futurenext_Zakeke_Helper_Data::ZAKEKE_DESIGN_PARAM];
             $model = $buyInfo[Futurenext_Zakeke_Helper_Data::ZAKEKE_MODEL_PARAM];
@@ -198,17 +192,11 @@ class Futurenext_Zakeke_Model_Observer
             /** @var Mage_Core_Helper_Data $coreHelper */
             $coreHelper = Mage::helper('core');
 
-            $zakekeCartData = $zakekeApi->getCartInfo($design);
+            $zakekeCartData = $zakekeApi->getCartInfo($design, $qty);
 
             $originalFinalPrice = $product->getFinalPrice($qty);
 
-            $zakekePrice = 0.0;
-            if ($zakekeCartData->pricing['modelPriceDeltaPerc']) {
-                $zakekePrice += $originalFinalPrice * ($zakekeCartData->pricing['modelPriceDeltaPerc'] / 100);
-            } else {
-                $zakekePrice += (float)$zakekeCartData->pricing['modelPriceDeltaValue'];
-            }
-            $zakekePrice += (float)$zakekeCartData->pricing['designPrice'];
+            $zakekePrice = $zakekeHelper::getZakekePrice($originalFinalPrice, $zakekeCartData->pricing, $qty);
 
             $zakekeOption = array(
                 'label' => $coreHelper->__('Customization'),
@@ -226,14 +214,8 @@ class Futurenext_Zakeke_Model_Observer
             );
             $additionalOptions[] = $zakekeOption;
 
-            if ($zakekePrice) {
-                $zakekeFinalPrice = $coreHelper->currency($zakekePrice);
-
-                $zakekePricingOption = [
-                    'label' => $coreHelper->__('Customization Price'),
-                    'value' => $zakekeFinalPrice
-                ];
-                $additionalOptions[] = $zakekePricingOption;
+            if ($zakekePrice > 0) {
+                self::upsertZakekePricingOption($additionalOptions, $zakekePrice);
             }
 
             $item->addOption(array(
@@ -306,16 +288,6 @@ class Futurenext_Zakeke_Model_Observer
             /** @var Mage_Catalog_Model_Product $product */
             $product = $observer->getProduct();
 
-            $action = Mage::app()->getFrontController()->getAction();
-            $request = $action->getRequest();
-            $qty = $request->getParam('qty');
-            if (isset($qty)) {
-                $filter = new Zend_Filter_LocalizedToNormalized(
-                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
-                );
-                $qty = $filter->filter($qty);
-            }
-
             /** @var Mage_Catalog_Model_Product_Option $additionalOption */
             $additionalOption = $product->getCustomOption('additional_options');
             if (!$additionalOption) {
@@ -334,26 +306,12 @@ class Futurenext_Zakeke_Model_Observer
                     ->setValue(Futurenext_Zakeke_Helper_Data::ZAKEKE_PRODUCT_TYPE);
                 $quoteItem->addOption($optionType);
 
-                $zakekePrice = 0.0;
-                if (isset($option['price'])) {
-                    $zakekePrice = $option['price'];
+                if (isset($option['price']) && $option['price'] > 0) {
+                    $finalPrice = $product->getFinalPrice($quoteItem->getQty()) + $option['price'];
+                    self::setQuoteItemPrice($quoteItem, $finalPrice);
                 }
 
-                if ($zakekePrice <= 0.0) {
-                    return $this;
-                }
-
-                /** @var Mage_Directory_Helper_Data $directoryHelper */
-                $directoryHelper = Mage::helper('directory');
-                $baseCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
-                $currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
-
-                $baseFinalPrice = $product->getFinalPrice($quoteItem->getQty()) + $zakekePrice;
-                $finalPrice = $directoryHelper->currencyConvert($baseFinalPrice, $baseCurrencyCode, $currentCurrencyCode);
-
-                $quoteItem->setCustomPrice($finalPrice);
-                $quoteItem->setOriginalCustomPrice($finalPrice);
-                $product->setIsSuperMode(true);
+                return $this;
             }
         } catch (Exception $e) {
             Mage::logException($e);
@@ -560,4 +518,114 @@ class Futurenext_Zakeke_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Check for quote item qty changes.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return $this
+     * @throws Exception
+     */
+    public function salesQuoteItemQtySetAfter($observer)
+    {
+        /** @var Futurenext_Zakeke_Helper_ZakekeApi $zakekeApi */
+        $zakekeApi = Mage::helper('futurenext_zakeke/zakekeApi');
+
+        try {
+            /** @var Mage_Sales_Model_Quote_Item $quoteItem */
+            $quoteItem = $observer->getEvent()->getItem();
+
+            if ($quoteItem->isObjectNew() || !$quoteItem->dataHasChangedFor('qty')) {
+                return $this;
+            }
+
+            $qty = $quoteItem->getQty();
+            if ($qty <= 0) {
+                $qty = 1;
+            }
+
+            /** @var Mage_Sales_Model_Quote_Item_Option $additionalOptionsOption */
+            $additionalOptionsOption = $quoteItem->getOptionByCode('additional_options');
+            if ($additionalOptionsOption) {
+                $options = (array) unserialize($additionalOptionsOption->getValue());
+
+                if ($option = &Futurenext_Zakeke_Helper_Data::getZakekeOption($options)) {
+                    $product = $quoteItem->getProduct();
+
+                    $zakekeCartData = $zakekeApi->getCartInfo($option['design'], $qty);
+
+                    $originalFinalPrice = $product->getFinalPrice($qty);
+
+                    $zakekePrice = Futurenext_Zakeke_Helper_Data::getZakekePrice(
+                        $originalFinalPrice,
+                        $zakekeCartData->pricing,
+                        $qty
+                    );
+
+                    $option['pricing'] = $zakekeCartData->pricing;
+                    $option['price'] = $zakekePrice;
+                    $option['original_final_price'] = $originalFinalPrice;
+
+                    $finalPrice = $originalFinalPrice + $zakekePrice;
+                    self::setQuoteItemPrice($quoteItem, $finalPrice);
+
+                    self::upsertZakekePricingOption($options, $zakekePrice);
+
+                    $additionalOptionsOption->setValue(serialize($options));
+                }
+            }
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $zakekeApi->log('Observer salesQuoteItemQtySetAfter exception ' . $e);
+            throw $e;
+        }
+        return $this;
+    }
+
+    /**
+     * Add or update the Zakeke pricing option
+     *
+     * @param array $options
+     * @param float $zakekePrice
+     * @return void
+     */
+    private static function upsertZakekePricingOption(&$options, $zakekePrice)
+    {
+        /** @var Mage_Core_Helper_Data $coreHelper */
+        $coreHelper = Mage::helper('core');
+
+        if ($priceOption = &Futurenext_Zakeke_Helper_Data::getZakekePriceOption($options)) {
+            $zakekeFinalPrice = $coreHelper->currency($zakekePrice, true, false);
+            $priceOption['value'] = $zakekeFinalPrice;
+        } elseif ($zakekePrice > 0) {
+            $zakekeFinalPrice = $coreHelper->currency($zakekePrice, true, false);
+            $zakekePricingOption = array(
+                'label' => $coreHelper->__('Customization Price'),
+                'value' => $zakekeFinalPrice,
+                'code' => 'zakeke_price'
+            );
+            $options[] = $zakekePricingOption;
+        }
+    }
+
+    /**
+     * Set a custom price to a quote item.
+     *
+     * @param Mage_Sales_Model_Quote_Item $quoteItem
+     * @param float $price
+     * @return void
+     */
+    private static function setQuoteItemPrice($quoteItem, $price)
+    {
+        /** @var Mage_Directory_Helper_Data $directoryHelper */
+        $directoryHelper = Mage::helper('directory');
+        $baseCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+
+        $finalPrice = $directoryHelper->currencyConvert($price, $baseCurrencyCode);
+
+        $quoteItem->setCustomPrice($finalPrice);
+        $quoteItem->setOriginalCustomPrice($finalPrice);
+        $quoteItem->getProduct()->setIsSuperMode(true);
+    }
+
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!--
 /*******************************************************
- * Copyright (C) 2016 FutureNext SRL
+ * Copyright (C) 2017 Zakeke
  *
  * This file is part of Zakeke.
  *
  * Zakeke can not be copied and/or distributed without the express
- * permission of FutureNext SRL
+ * permission of Zakeke
  *******************************************************/
 -->
 <config>
@@ -29,7 +29,7 @@
             <groups>
                 <settings translate="label comment">
                     <label>General Settings</label>
-                    <comment>These credentials will be used to allow the integration of Zakeke with your store. By entering your Zakeke credentials your store will be able to communicate with the Zakeke API.</comment>
+                    <comment><![CDATA[These credentials will be used to allow the integration of Zakeke with your store. By entering your Zakeke credentials your store will be able to communicate with the Zakeke API. Please refer to the <a href="https://www.zakeke.com/Documentation/Integration/Magento1">Zakeke documentation</a> if you are unsure how to proceed.]]></comment>
                     <frontend_type>text</frontend_type>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

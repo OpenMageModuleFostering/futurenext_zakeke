@@ -1,10 +1,10 @@
 /*******************************************************
- * Copyright (C) 2016 FutureNext SRL
+ * Copyright (C) 2017 Zakeke
  *
  * This file is part of Zakeke.
  *
  * Zakeke can not be copied and/or distributed without the express
- * permission of FutureNext SRL
+ * permission of Zakeke
  *******************************************************/
 
 function zakekeShowPreview(preview) {

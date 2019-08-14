@@ -1,11 +1,11 @@
 <?php
 /*******************************************************
- * Copyright (C) 2016 FutureNext SRL
+ * Copyright (C) 2017 Zakeke
  *
  * This file is part of Zakeke.
  *
  * Zakeke can not be copied and/or distributed without the express
- * permission of FutureNext SRL
+ * permission of Zakeke
  *******************************************************/
 
 
@@ -21,12 +21,15 @@ class Futurenext_Zakeke_Helper_ZakekeApi extends Mage_Core_Helper_Abstract
      * Get the needed data for adding a product to the cart
      *
      * @param int $designId
+     * @param float $qty
      * @throws Exception
      * @return object
      */
-    public function getCartInfo($designId)
+    public function getCartInfo($designId, $qty)
     {
         $data = $this->getMinimalData();
+        $data['qty'] = $qty;
+
         $url = '/api/designdocs/' . $designId . '/cartinfo'
             . '?' . http_build_query($data);
         $json = $this->getRawRequest($url, null);
