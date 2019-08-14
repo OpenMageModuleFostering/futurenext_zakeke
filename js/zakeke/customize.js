@@ -135,10 +135,14 @@ function zakekeCustomizationAdd(config) {
         }
     }, false);
 
-    if (!window.matchMedia('(min-width: 768px)').matches) {
+    if (window.matchMedia('(min-width: 768px)').matches) {
+        iframe.src = config.customizerLargeUrl;
+        iframe.scrollIntoView({block: 'start', behavior: 'smooth'});
+    } else {
+        iframe.src = config.customizerSmallUrl;
         window.addEventListener('resize', function () {
             iframe.style.minHeight = window.innerHeight + 'px';
-            window.document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
         });
     }
 }

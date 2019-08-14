@@ -17,42 +17,6 @@
  */
 class Futurenext_Zakeke_Block_Customize extends Futurenext_Zakeke_Block_View
 {
-    const WIDTH_BREAKPOINT = 768;
-
-    /**
-     * Check the customer device property.
-     *
-     * @return bool
-     */
-    private function isLarge()
-    {
-        $resolution = Mage::app()->getRequest()->getParam('resolution');
-        if ($resolution === null) {
-            return true;
-        }
-
-        $parts = explode('x', $resolution);
-        $width = (int)$parts[0];
-        return $width >= self::WIDTH_BREAKPOINT;
-    }
-
-    /**
-     * Get the Zakeke iframe.
-     *
-     * @return string
-     */
-    public function iframeHtml()
-    {
-        if ($this->isLarge()) {
-            $html = '<iframe id="zakeke-frame" src="' . $this->getLargeUrl() . '" style="min-height: 719px; width: 100%" frameBorder="0"></iframe>';
-        } else {
-            $html = '<iframe id="zakeke-frame" src="' . $this->getMobileUrl() .'" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999999; height: 100%; width: 100%;" frameBorder="0"></iframe>'
-                .  '<style>body { overflow: hidden }</style>';
-        }
-
-        return $html . '<script> document.getElementById("zakeke-frame").scrollIntoView({block: "start", behavior: "smooth"}); </script>';
-    }
-
     /**
      * Zakeke authentication token.
      *
@@ -193,8 +157,8 @@ class Futurenext_Zakeke_Block_Customize extends Futurenext_Zakeke_Block_View
 
         $data = array(
             'zakekeUrl' => Futurenext_Zakeke_Helper_Data::ZAKEKE_BASE_URL,
-            'mobileUrl' => $this->getMobileUrl(),
-            'largeUrl' => $this->getLargeUrl(),
+            'customizerLargeUrl' => $this->getLargeUrl(),
+            'customizerSmallUrl' => $this->getMobileUrl(),
             'params' => Mage::app()->getRequest()->getParams(),
             'colorAttributeId' => $this->getColorAttributeId(),
             'checkoutUrl' => $this->getAddtocartFormTarget(),

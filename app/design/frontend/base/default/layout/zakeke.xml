@@ -59,6 +59,7 @@
         <reference name="head">
             <action method="addJs"><script>zakeke/jquery.js</script></action>
             <action method="addJs"><script>zakeke/customize.js</script></action>
+            <action method="addCss"><stylesheet>css/zakeke/zakeke.css</stylesheet></action>
         </reference>
         <reference name="content">
             <block type="futurenext_zakeke/customize_add"
@@ -74,6 +75,7 @@
         <reference name="head">
             <action method="addJs"><script>zakeke/jquery.js</script></action>
             <action method="addJs"><script>zakeke/customize.js</script></action>
+            <action method="addCss"><stylesheet>css/zakeke/zakeke.css</stylesheet></action>
         </reference>
         <reference name="content">
             <block type="futurenext_zakeke/customize_configure"

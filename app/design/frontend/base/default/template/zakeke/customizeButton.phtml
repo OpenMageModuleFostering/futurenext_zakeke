@@ -20,8 +20,8 @@
         (function (config) {
             'use strict';
 
-            var zakekeButton = window.document.getElementById('zakeke-customize-button'),
-                addtoCartForm = window.document.getElementById('product_addtocart_form'),
+            var zakekeButton = document.getElementById('zakeke-customize-button'),
+                addtoCartForm = document.getElementById('product_addtocart_form'),
                 observer = new MutationObserver(function() {
                     zakekeButton.removeAttribute('onclick');
                 });
@@ -43,7 +43,7 @@
 
                 zakekeButton.disabled = true;
 
-                var resolutionInput = window.document.createElement('INPUT');
+                var resolutionInput = document.createElement('INPUT');
                 resolutionInput.type = 'hidden';
                 resolutionInput.name = 'resolution';
                 resolutionInput.value = window.screen.width + 'x' + window.screen.height;
